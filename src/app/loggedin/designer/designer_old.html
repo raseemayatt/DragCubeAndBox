@@ -1,0 +1,226 @@
+﻿  <div class="container">
+    <ul class="nav nav-pills nav-toggle-menu">
+      <li class="active">
+        <a class="active" href="#1a" data-toggle="pill">Tag Designer</a>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="1a">
+        <br>
+        <div class="container">
+          <div class="tab-content">
+            <div class="form-row">
+              <div class="form-group col-md-8">
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="row">
+                      <div class="col-md-6">
+                        <label for="backg">&nbsp;Background</label>
+                      </div>
+                      <div class="col-md-6">
+                        <input type="color" id="backg" name="backg" value="#fffff">
+                      </div>                
+                    </div>
+                  </div>
+                </div>
+                
+
+                <div class="row">
+                  <div class="col-md-12">
+                    <div  class="row">
+                      <div class="col-md-6">
+                        <label for="foreg">&nbsp;Foreground</label>
+                      </div>
+                      <div class="col-md-6">
+                        <input type="color" id="foreg" name="foreg" value="#000000">
+                      </div>              
+                    </div>
+                  </div>                
+                </div>
+                
+                <div class="row">
+                  <div class="col-md-12">
+                    <div  class="row">
+                      <div class="col-md-6">
+                        <label for="borderbg">&nbsp;Border</label>
+                      </div>
+                      <div class="col-md-6">
+                        <input type="color" id="borderbg" name="borderbg" value="#000000">
+                      </div>              
+                    </div>
+                  </div>                
+                </div>
+                <hr>
+                <table class="table design-components">
+                  <tr>
+                    <th width="30%">
+                      Name
+                    </th>
+                    <th width="5%">
+                      Size
+                    </th>
+                    <th width="20%">
+                      Category
+                    </th>
+                    <th width="20%">
+                      Type
+                    </th>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="form-check" >
+                        <input class="form-check-input" type="checkbox" value="" id="dph" checked>
+                        <label class="form-check-label" for="dph">
+                          Discount Heading
+                        </label>
+                      </div>
+                    </td>
+                    <td>
+                      <input type="number" value="16" id="dph-size" />
+                    </td>
+                    <td>
+                      Category
+                    </td>
+                    <td>
+                      Type
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="form-check" >
+                        <input class="form-check-input" type="checkbox" value="" id="dpv" checked>
+                        <label class="form-check-label" for="dpv">
+                          Discount Value
+                        </label>
+                      </div>
+                    </td>
+                    <td>
+                      <input type="number" value="36" id="dpv-size" />
+                    </td>
+                    <td>
+                      Category
+                    </td>
+                    <td>
+                      Type
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="form-check" >
+                        <input class="form-check-input" type="checkbox" value="" id="ph" checked>
+                        <label class="form-check-label" for="ph">
+                          Price Heading
+                        </label>
+                      </div>
+                    </td>
+                    <td>
+                      <input type="number" value="16" id="ph-size" />
+                    </td>
+                    <td>
+                      Category
+                    </td>
+                    <td>
+                      Type
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="form-check" >
+                        <input class="form-check-input" type="checkbox" value="" id="pv" checked>
+                        <label class="form-check-label" for="pv">
+                          Price Value
+                        </label>
+                      </div>
+                    </td>
+                    <td>
+                      <input type="number" value="66" id="pv-size" />
+                    </td>
+                    <td>
+                      Category
+                    </td>
+                    <td>
+                      Type
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="form-check" >
+                        <input class="form-check-input" type="checkbox" value="" id="pn" checked>
+                        <label class="form-check-label" for="pn">
+                          Product Name
+                        </label>
+                      </div>
+                    </td>
+                    <td>
+                      <input type="number" value="16" id="pn-size" />
+                    </td>
+                    <td>
+                      Category
+                    </td>
+                    <td>
+                      Type
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="form-check" >
+                        <input class="form-check-input" type="checkbox" value="" id="pq" checked>
+                        <label class="form-check-label" for="pq">
+                          Product Quantity
+                        </label>
+                      </div>
+                    </td>
+                    <td>
+                      <input type="number" value="16" id="pq-size" />
+                    </td>
+                    <td>
+                      Category
+                    </td>
+                    <td>
+                      Type
+                    </td>
+                  </tr>
+                </table>
+ 
+                <div class="row">
+                  <div class="col-md-6">
+                    <button type="button" id="do-draw" class="btn btn-primary">
+                      Preview Label
+                    </button>
+                  </div>
+                  <div class="col-md-6"></div>
+                </div>
+              </div>
+              <div class="form-group col-md-4 canvas-container" >
+                <div class="row">
+                  <div class="col-md-6">
+                    <label for="secondaryGwId">Label Size*</label>                    
+                  </div>
+                  <div class="col-md-6">
+                    <select>
+                      <option value="1">
+                        2.1 inch Label
+                      </option>
+                    </select>                    
+                  </div>
+                </div>
+                
+                
+                <canvas id="canvas" width="240" height="140"></canvas>
+                <div class="canvas-save">
+                  <button type="button" id="save-draw" class="btn btn-primary">
+                    Save Label Design
+                  </button>  
+                </div>
+                
+              </div>
+            </div>
+            
+            
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>

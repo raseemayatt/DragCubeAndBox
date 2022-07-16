@@ -1,0 +1,436 @@
+﻿<div class="container">
+  <ul class="nav nav-pills nav-toggle-menu">
+    <li class="active" *ngIf="tabsAvailability.templateList.visible">
+      <a class="active" href="#1a" data-toggle="pill">Template List</a>
+    </li>
+    <li *ngIf="tabsAvailability.tagDesigner.visible">
+      <a href="#2a" data-toggle="pill">Create Template</a>
+    </li>
+  </ul>
+  <div class="tab-content">
+    <div class="tab-pane show active" id="1a">
+
+      <div class="alert-section">
+        <alert></alert>
+      </div>
+      <div *ngIf="templateListVisible">
+        <div class="row" style="height: auto;">
+          <div class="col-8">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">Template Name</th>
+                  <th scope="col">Type</th>
+                  <th scope="col">Status</th>
+                  <th scope="col">Options</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="table-light" *ngFor="let template of priceTemplateList">
+                  <td scope="row">{{template.templateName}}</td>
+                  <td *ngIf="template.type==0">
+                    Out of Stock
+                  </td>
+                  <td *ngIf="template.type==1">
+                    Without offer
+                  </td>
+                  <td *ngIf="template.type==2">
+                    With offer
+                  </td>
+                  <td *ngIf="template.type==3">
+                    For PDF
+                  </td>
+                  <td *ngIf="template.active==1">
+                    <i class="fa fa-circle fa-green" aria-hidden="true"></i>
+                    Active
+                  </td>
+                  <td *ngIf="template.active==0">
+                    <i class="fa fa-circle fa-red" aria-hidden="true"></i>
+                    Inactive
+                  </td>
+                  <td>
+                    &nbsp;&nbsp;<i class="fa fa-eye" aria-hidden="true" (click)="getLabelTempatesbyId(template.id)"></i>
+                    &nbsp;&nbsp;&nbsp;
+                    <a [routerLink]="['/designer',template.templateName]"> <i class="fa fa-pencil-square-o"
+                        aria-hidden="true"></i> </a>
+                    &nbsp;&nbsp;&nbsp;
+                    <i class="fa fa-toggle-off" *ngIf="template.active==0" aria-hidden="true"
+                      (click)="activateLabelTempates(template.id)"></i>
+                    <i class="fa fa-toggle-on" *ngIf="template.active==1" aria-hidden="true"
+                      (click)="activateLabelTempates(template.id)"></i>
+                    &nbsp;&nbsp;&nbsp;
+                    <i class="fa fa-trash" aria-hidden="true" (click)="deleteTemplate(template.id)"></i>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="col-4">
+            <div *ngIf="previewLoading" class="loadingio-spinner-reload-cluby6o6qqa">
+              <div class="ldio-vrvnnan0h8i">
+                <div>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                </div>
+              </div>
+            </div>
+            <div *ngIf="previewVisible">
+              <img style="width: 100%;" *ngIf="imageData" [src]="imageData" alt="tag-image" />
+              <img style="width: 100%;" *ngIf="!imageData" src="{{previewImageUrl}}" alt="tag-image" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tab-pane fade " id="2a">
+      <div *ngIf="templateListVisible">
+        <div *ngIf="tabsAvailability.templateList.visible">
+        <div class="alert-section">
+          <alert></alert>
+        </div>
+        <div class="row" style="height: auto;">
+          <div class="col-md-4">
+            <!-- layout design starts-->
+
+            <div class="row">
+              <div class="col-md-6">
+                <label for="backg">Background</label>
+              </div>
+              <div class="col-md-6">
+                <select #backg>
+                  <option value="{{colordata.color}}" [ngStyle]="{'background-color': colordata.color}"
+                    *ngFor='let colordata of data'>{{colordata.name}}</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6">
+                <label for="foreg">Foreground</label>
+              </div>
+              <div class="col-md-6">
+                <select #foreg>
+                  <option value="{{colordata.color}}" [ngStyle]="{'background-color': colordata.color}"
+                    *ngFor='let colordata of data'>{{colordata.name}}</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6">
+                <label for="borderbg">Border</label>
+              </div>
+              <div class="col-md-6">
+                <select #borderbg>
+                  <option value="{{colordata.color}}" [ngStyle]="{'background-color': colordata.color}"
+                    *ngFor='let colordata of data'>{{colordata.name}}</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6">
+                <label for="colouredlabel">Coloured Label</label>
+              </div>
+              <div class="col-md-6">
+                <select id="colouredlabel" #coloured>
+                  <option value="0">Grayscale</option>
+                  <option value="1">Coloured</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6">
+                <label for="borderSize">Border Size</label>
+              </div>
+              <div class="col-md-6">
+                <select id="borderSize" #bordersize>
+                  <option *ngFor='let in of listMaker(1,3)'>{{in}}</option>
+                </select>
+              </div>
+            </div>
+
+
+
+            <!-- lauout design ends -->
+          </div>
+          <div class="col-md-4" style="width:100%">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="row">
+                  <div class="col-md-4">
+                    <label for="imgWidth">Width</label>
+                  </div>
+                  <div class="col-md-8">
+                    <input [value]="widthVal" *ngIf="templateWidthVisible" id="imgWidth" type="number"
+                      style="width: 100%;" value="240" #imgWidth>
+                    <input [value]="widthVal" *ngIf="!templateWidthVisible" id="imgWidth" type="number"
+                      style="width: 100%;" value="" disabled #imgWidth>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="row">
+                  <div class="col-md-4">
+                    <label for="imgHeight">Height</label>
+                  </div>
+                  <div class="col-md-8">
+                    <input [value]="heightVal" *ngIf="templateHeightVisible" id="imgHeight" type="number"
+                      style="width: 100%;" value="146" #imgHeight>
+                    <input [value]="heightVal" *ngIf="!templateHeightVisible" id="imgHeight" type="number"
+                      style="width: 100%;" value="" disabled #imgHeight>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-2"></div>
+              <div class="col-md-8">&nbsp;
+
+              </div>
+              <div class="col-md-2"></div>
+
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <label>Template Name</label>
+              </div>
+              <div class="col-md-6">
+                <input type="text" #templateName style="width: 100%;" name="templateName" />
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <label>Paper Type</label>
+              </div>
+              <div class="col-md-6">
+                <select [value]="paperTypeVal" (change)="changePaperType()" name="paperType" style="width: 100%;"
+                  placeholder="Custom" #paperType>
+                  <option *ngFor="let paper of paperTypeListReverse" value="{{paper}}">
+                    {{paper}}</option>
+                </select>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <label *ngIf="templateTypeVisible">Template Type</label>
+              </div>
+              <div class="col-md-6">
+                <select *ngIf="templateTypeVisible" name="templateType" style="width: 100%;" #templateType>
+                  <option value="2">with Offer</option>
+                  <option value="0">Out of Stock</option>
+                  <option value="1">Without offer</option>
+                </select>
+              </div>
+            </div>
+
+
+            <div class="row">
+              <div class="col-4">
+                <button [ngStyle]="{'background': themeBg, 'font-size': '12px'}" type="button" (click)="showPreview()"
+                  class="btn btn-primary">
+                  Preview
+                </button>
+
+              </div>
+              <div class="col-4">
+
+                <!-- <li class="active" *ngIf="tabsAvailability.templateList.visible">
+                <a class="active" href="#1a" data-toggle="pill">Template List</a>
+              </li> -->
+              
+                <button [ngStyle]="{'background': themeBg, 'font-size': '12px'}" (click)="saveTemplate('0')"
+                  type="button" class="btn btn-primary">
+                  Save
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4" style="width:100%">
+            <div *ngIf="previewLoading" class="loadingio-spinner-reload-cluby6o6qqa">
+              <div class="ldio-vrvnnan0h8i">
+                <div>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                </div>
+              </div>
+            </div>
+            
+            <img style="width: 100%;" *ngIf="imageData" [src]="imageData" alt="tag-image" />
+            <img style="width: 100%;" *ngIf="!imageData" src="{{previewImageUrl}}" alt="tag-image" />
+
+
+
+          </div>
+        </div>
+        <div class="row" style="margin-left: 0px;margin-right:0px;">
+          <div class="col-md-4" style="border: 1px solid grey; padding: 5px 15px">
+
+            <div class="row">
+              <div class="col-md-6">
+                <label>Field Type</label>
+              </div>
+              <div class="col-md-6">
+                <select [value]="fieldTypeVal" name="fieldType" (change)="changeFieldType()" style="width: 100%;"
+                  #fieldType>
+                  <option value="2">Product</option>
+                  <option value="0">Label</option>
+                </select>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <label>Name</label>
+              </div>
+              <div class="col-md-6">
+                <select [value]="productNameVal" *ngIf="!fieldNameVisible" name="productName" #productName
+                  style="width: 95%;">
+                  <option *ngFor='let label of priceLabelList'>{{label}}</option>
+                </select>
+                <input *ngIf="fieldNameVisible" type="text" #fieldName style="width: 100%;" name="fieldName" />
+
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <label>Size</label>
+              </div>
+              <div class="col-md-6">
+                <select [value]="fieldsizeVal" #fieldSize name="fieldSize" style="width: 95%;">
+                  <option *ngFor='let in of listMaker(8,100)'>{{in}}</option>
+                </select>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <label>Position</label>
+              </div>
+              <div class="col-md-6">
+                <select [value]="fieldpositionVal" (change)="changePosition()" #fieldPosition name="position"
+                  style="width: 95%">
+                  <option value="11">Left column top row</option>
+                  <option value="12">Center column top row</option>
+                  <option value="13">Right column top row</option>
+                  <option value="21">Left column middle row</option>
+                  <option value="22">Center column middle row</option>
+                  <option value="23">Right column middle row</option>
+                  <option value="31">Left column last row</option>
+                  <option value="32">Center column last row</option>
+                  <option value="33">Right column last row</option>
+                  <option value="10">First row any column</option>
+                  <option value="20">Middle row any column</option>
+                  <option value="30">Last row any column</option>
+                  <option value="01">Left column any row</option>
+                  <option value="02">Center column any row</option>
+                  <option value="03">Right column any row</option>
+                  <option value="00">Anywhere</option>
+                </select>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <label>Strike</label>
+              </div>
+              <div class="col-md-6">
+                <select [value]="fieldstrikeVal" #fieldStrike name="strike" style="width: 95%">
+                  <option value="0">No</option>
+                  <option value="1">Forward Strikethrough</option>
+                  <option value="2">Backward Strikethrough</option>
+                  <option value="3">Cross Strikethrough</option>
+                </select>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <label>Color</label>
+              </div>
+              <div class="col-md-6">
+                <select [value]="fieldcolorVal" #fieldColor name="fieldColor">
+                  <option value="{{colordata.color}}" [ngStyle]="{'background-color': colordata.color}"
+                    *ngFor='let colordata of data'>{{colordata.name}}</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6">
+                <div class="row">
+                  <div class="col-md-6">
+                    <label for="Xpos" *ngIf="XpositionVisible" style="width: 64px;">X Position</label>
+                  </div>
+                  <div class="col-md-6">
+                    <input [value]="fieldXpositionVal" id="Ypos" *ngIf="XpositionVisible" type="number"
+                      style="width: 100%;" name="fixX" #fixX>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="row">
+                  <div class="col-md-6">
+                    <label for="Ypos" *ngIf="YpositionVisible" style="width: 64px;">Y Position</label>
+                  </div>
+                  <div class="col-md-6">
+                    <input [value]="fieldYpositionVal" id="Ypos" *ngIf="YpositionVisible" type="number"
+                      style="width: 100%;" name="fixY" #fixY>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row" style="margin-top:10px;">
+              <div class="col-md-3">
+              </div>
+              <div class="col-md-6">
+                <button *ngIf="updateFieldVisible" [ngStyle]="{'background': themeBg, 'font-size': '10px'}" (click)="addField(fieldIdVal)"
+                  type="button" class="btn btn-primary">
+                  Update Field
+                </button>
+                <button *ngIf="!updateFieldVisible" [ngStyle]="{'background': themeBg, 'font-size': '10px'}" (click)="addField(fieldIdVal)"
+                  type="button" class="btn btn-primary">
+                  Add Field
+                </button>
+              </div>
+              <div class="col-md-3">
+              </div>
+            </div>
+          </div>
+          <div class="col-md-8" style="border: 1px solid grey; padding: 5px 15px">
+            <table class="table card-table">
+              <thead>
+                <tr>
+                  <td [ngStyle]="{'background': themeBg}" class="blue-head" scope="col">Type</td>
+                  <td [ngStyle]="{'background': themeBg}" class="blue-head" scope="col">Name</td>
+                  <td [ngStyle]="{'background': themeBg}" class="blue-head" scope="col">Size</td>
+                  <td [ngStyle]="{'background': themeBg}" class="blue-head" scope="col">Color</td>
+                  <td [ngStyle]="{'background': themeBg}" class="blue-head" scope="col">Action</td>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr class="table-light" *ngFor="let singleF of fieldList">
+                  <td class="grey-head" *ngIf="singleF.fieldType">Product</td>
+                  <td class="grey-head" *ngIf="!singleF.fieldType">Label</td>
+                  <td class="grey-head" *ngIf="singleF.fieldType">{{singleF.productName}}</td>
+                  <td class="grey-head" *ngIf="!singleF.fieldType">{{singleF.fieldName}}</td>
+                  <td class="grey-head">{{singleF.fieldSize}}</td>
+                  <td class="grey-head">{{singleF.fieldColor}}</td>
+                  <td class="grey-head">
+                    <i class="fa fa-pencil-square-o" aria-hidden="true"
+                      (click)="editField(singleF._id)"></i>&nbsp;&nbsp;
+                    <i class="fa fa-trash" aria-hidden="true" (click)="deleteField(singleF._id)"></i>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+
+  </div>
+</div>

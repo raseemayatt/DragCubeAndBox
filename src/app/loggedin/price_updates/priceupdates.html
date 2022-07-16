@@ -1,0 +1,298 @@
+﻿<div class="container">
+  <ul class="nav nav-pills  nav-toggle-menu">
+    <li *ngIf="tabsAvailability.priceUpdate.visible"><a class="active" href="#1a" data-toggle="tab">Price Update</a>
+    </li>
+    <li *ngIf="tabsAvailability.bulkPriceUpdate.visible">
+      <a href="#2a" data-toggle="tab">Bulk Price Update</a>
+    </li>
+
+    <li *ngIf="tabsAvailability.priceRetry.visible"><a href="#3a" data-toggle="tab">Price Retry</a>
+    </li>
+    <li *ngIf="tabsAvailability.priceRefresh.visible"><a href="#4a" data-toggle="tab">Price Refresh</a>
+    </li>
+  </ul>
+
+  <div class="tab-content clearfix">
+    <div class="tab-pane active" id="1a">
+      <br>
+      <div class="alert-section">
+        <alert></alert>
+      </div>
+      <form [formGroup]="priceUpdateForm" (ngSubmit)="onSubmit1()">
+
+        <div class="form-row">
+          <div class="form-group col-md-4">
+            <label for="upc">Product id*</label>
+            <input (keypress)="isAlphaNumericKey($event)" type="text" class="form-control" formControlName="upc"
+              id="upc">
+          </div>
+          <div class="form-group col-md-8">
+            <label for="itemName">Product Name*</label>
+            <input (keypress)="isAlphaNumericKey($event)" type="text" class="form-control" formControlName="itemName"
+              id="itemName">
+          </div>
+
+        </div>
+
+        <div class="form-row">
+          <div class="form-group col-md-4">
+            <label for="unitPrice">Unit Price*</label>
+            <input (keypress)="isNumericKey($event)" type="text" class="form-control" formControlName="unitPrice"
+              id="unitPrice">
+          </div>
+          <div class="form-group col-md-8">
+            <label for="itemDescription">Product Description*</label>
+            <input type="text" class="form-control" formControlName="itemDescription" id="itemDescription">
+          </div>
+        </div>
+
+
+
+
+
+
+
+        <!--<input type="text" class="form-control" formControlName="state" id="state">
+
+
+              <label for="Out of Stock">Out of Stock</label>
+                <input type="radio" class="form-control" id="Out of Stock" formControlName="Out of Stock" mdbInput>
+                
+              
+               Default checked 
+              <label for="Price Update">Price Update</label>
+                <input type="radio" class="form-control" id="Price Update" formControlName="Price Update" mdbInput>-->
+
+
+
+
+
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label for="state">State*</label>
+            <div class="form-control">
+              <label class="radio-inline">
+                <input type="radio" formControlName="state" value="0" id="state">
+                Out of Stock
+              </label>
+              &nbsp;&nbsp;&nbsp;&nbsp;
+              <label class="radio-inline">
+                <input type="radio" formControlName="state" value="1" id="state">
+                Price Update
+              </label>
+            </div>
+          </div>
+
+          <div class="form-group col-md-6">
+            <label for="price">Price*</label>
+            <input (keypress)="isNumericKey($event)" type="text" class="form-control" formControlName="price"
+              id="price">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-6">
+
+            <div class="form-row">
+              <div class="col-md-8">
+                <label for="discountPrice">Discount Price</label>
+                <input (keypress)="isNumericKey($event)" type="text" class="form-control"
+                  formControlName="discountPrice" id="discountPrice">
+              </div>
+              <div class="col-md-4">
+                <label for="count">Item Number*</label>
+                <input (keypress)="isNumericKey($event)" type="text" class="form-control" formControlName="count"
+                  id="count">
+              </div>
+            </div>
+          </div>
+          <div class="form-group col-md-6">
+
+
+            <div class="form-row">
+              <div class="col-md-8">
+                <label for="quantity">Quantity*</label>
+                <input (keypress)="isNumericKey1($event)" type="text" class="form-control"
+                  formControlName="quantityValue" id="quantityValue">
+              </div>
+              <div class="col-md-4">
+                <label for="quantityUnit">Unit*</label>
+                <select id="quantityUnit" class="form-control" formControlName="quantityUnit">
+                  <option *ngFor="let unit of unitListData" value="{{unit}}">
+                    {{unit}}
+                  </option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="form-row image-preview">
+          <div class="form-group col-md-2">
+
+            <button [ngStyle]="{'background': themeBg}" [disabled]="previewLoading" type="button"
+              class="btn btn-primary" value="Preview" (click)="showPreview(priceUpdateForm.value)">
+              <span *ngIf="previewLoading" class="spinner-border spinner-border-sm mr-1"></span>
+              Preview
+            </button>
+          </div>
+          <div class="form-group col-md-2">
+            <button [ngStyle]="{'background': themeBg}" [disabled]="loading" type="submit" class="btn btn-primary"
+              value="priceupdate">
+              <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+              Save
+            </button>
+          </div>
+          <div class="form-group col-md-2">
+            <button [ngStyle]="{'background': themeBg}" [disabled]="printloading" (click)="printTemplate(userModalData)"
+              type="button" class="btn btn-primary">
+              Print
+            </button>
+          </div>
+          <div class="form-group col-md-6">
+            <div *ngIf="previewLoading" class="loadingio-spinner-reload-cluby6o6qqa">
+              <div class="ldio-vrvnnan0h8i">
+                <div>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                </div>
+              </div>
+            </div>
+            <img *ngIf="imageData" [src]="sanitizeImageUrl(imageData)" alt="tag-image" />
+          </div>
+        </div>
+
+        <br>
+
+        <ng-template #userModalData let-modal>
+          <div class="modal-header">
+            <b class="modal-title" id="modal-basic-title">Choose Template Size</b>
+            <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div class="modal-body modal-body-custom">
+            <div class="col-md-12">
+              <div class="row">
+                <div class="col-md-8" style="padding: 0px 0 0 39px;">
+                  <select id="pdfTypeName" class="form-control" formControlName="pdfTypeName" style="width: 88%">
+                    <option *ngFor="let temlist of templateByIdList" value="{{temlist.id}}">
+                      {{temlist.templateName}}</option>
+                  </select>
+                </div>
+                <div class="col-md-4" style="padding: 0 0 0 50px;" >
+                  <button [ngStyle]="{'background': themeBg, 'font-size': '12px'}" type="button" class="btn btn-primary"
+                    (click)="downloadTemplate(priceUpdateForm.value)">
+                    <span *ngIf="printloading" class="spinner-border spinner-border-sm mr-1"></span>
+                    Print
+                  </button>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </ng-template>
+
+      </form>
+    </div>
+    <div class="tab-pane" id="2a">
+      <br>
+      <div class="alert-section">
+        <alert></alert>
+      </div>
+      <div class="row">
+        <div class="col-3 upload-commission-label-heading">
+          Choose Bulk Price Update CSV
+        </div>
+        <div class="col-4">
+          <label for="files" class="btn upload-commission-label"><i [ngStyle]="{'color': themeBg}"
+              class="fa fa-folder-open" aria-hidden="true"></i>
+            Choose & Upload</label>
+          <input id="files" class="upload-commission" #fileInput type="file" (change)="fileChange($event, fileInput)"
+            placeholder="Choose Bulk Commission CSV" accept=".csv">
+        </div>
+      </div>
+
+      <table class="table" *ngIf="bulkPriceUpdateStatus.display">
+        <thead>
+          <tr>
+            <!-- <td scope="col">Total Count</td> -->
+            <td scope="col">Valid Entry Count</td>
+            <td scope="col">Success</td>
+            <td scope="col">Failure</td>
+            <td scope="col">Total Count</td>
+            <td scope="col">Status Check</td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="table-light">
+            <!-- <td scope="row">{{bulkPriceUpdateStatus.totalCount}}</td> -->
+            <td scope="row">{{bulkPriceUpdateStatus.validEntryCount}}</td>
+            <td scope="row">{{bulkPriceUpdateStatus.successCount}}</td>
+            <td scope="row">{{bulkPriceUpdateStatus.failedCount}}</td>
+            <td scope="row">{{bulkPriceUpdateStatus.totalCount}}</td>
+            <td scope="row">
+              <div *ngIf="bulkPriceUpdateStatus.checking" class="loadingio-spinner-reload-cluby6o6qqa">
+                <div class="ldio-vrvnnan0h8i">
+                  <div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                  </div>
+                </div>
+              </div>
+              <div *ngIf="!bulkPriceUpdateStatus.checking">completed</div>
+            </td>
+          </tr>
+        </tbody>
+        <br>
+        <button [ngStyle]="{'background': themeBg}" *ngIf="bulkPriceUpdateStatus.failedCount>0" [disabled]="loading"
+          type="button" class="btn btn-primary" (click)="retryByTransaction(bulkPriceUpdateStatus.transactionId)">
+          <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>Retry
+        </button>
+      </table>
+    </div>
+
+
+    <div class="tab-pane" id="3a">
+      <br>
+      <div class="alert-section">
+        <alert></alert>
+      </div>
+      <form [formGroup]="priceRetryForm" (ngSubmit)="onSubmit2()">
+
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <input (keypress)="isAlphaNumericKey($event)" type="text" class="form-control" formControlName="SKUretryid"
+              id="SKUID" placeholder="SKU ID">
+          </div>
+        </div>
+        <button [ngStyle]="{'background': themeBg}" [disabled]="loading" type="submit" class="btn btn-primary">
+          <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+          Retry
+        </button>
+      </form>
+
+    </div>
+    <div class="tab-pane" id="4a">
+      <br>
+      <div class="alert-section">
+        <alert></alert>
+      </div>
+      <form [formGroup]="priceRefreshForm" (ngSubmit)="onSubmit3()">
+
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <input (keypress)="isAlphaNumericKey($event)" type="text" class="form-control"
+              formControlName="SKUrefreshid" id="SKUID" placeholder="SKU ID">
+          </div>
+        </div>
+        <button [ngStyle]="{'background': themeBg}" [disabled]="loading" type="submit" class="btn btn-primary">
+          <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+          Refresh
+        </button>
+      </form>
+
+
+    </div>
+  </div>
+</div>

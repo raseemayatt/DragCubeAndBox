@@ -1,0 +1,259 @@
+﻿<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container-fluid">
+
+    <div class="row  full-width">
+      <div class="col-sm-3">
+        <div class="row">
+          <div class="col-2">
+            <div class="containerx" id="sidebarCollapse">
+              <div class="bar1" [ngStyle]="{'background': theme.background}"></div>
+              <div class="bar2" [ngStyle]="{'background': theme.background}"></div>
+              <div class="bar3" [ngStyle]="{'background': theme.background}"></div>
+            </div>
+          </div>
+          <div class="col-10">
+            <h3>&nbsp;&nbsp;&nbsp;{{title}}</h3>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-5">
+        <input [value]="searchword" (input)="searchThis($event.target.value)"
+          class="form-control-m" type="text" placeholder="Search your TAGs here"
+          id="search-input" pattern="[a-zA-Z0-9]+">
+        <button [ngStyle]="{'background': searchButtonColor}" (click)="searchTag(modalData, notFoundModalData)" type="submit" class="btn btn-base search-btn">
+          <i class="fa fa-search" aria-hidden="true"></i>
+        </button>
+      </div>
+      <div class="col-sm-4">
+
+        <ul class="nav navbar-nav ml-auto">
+          <li class="nav-item active">
+            <a class="nav-item nav-link" (click)="triggerModal(userModalData)"><i class="fa fa-user-circle"
+                aria-hidden="true"></i>
+              {{user.username}}</a>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-item nav-link" *ngIf="checkVisibility(navsAvailability.settings.visible, 'settings')" (click)="sleepTimerModal(sleepTimerModalData)"><i class="fa"
+                aria-hidden="true"></i>
+              Settings</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-item nav-link" (click)="logout()">Logout</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</nav>
+<!-- <button class="btn btn-danger" (click)="triggerModal(modalData)">Open Modal</button> -->
+
+<ng-template #modalData let-modal>
+  <div class="modal-header">
+    <b class="modal-title" id="modal-basic-title">ESL Details</b>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">×</span>
+    </button>
+  </div>
+  <div class="modal-body modal-body-custom">
+    <div class="row gutters-sm">
+      <div class="col-md-12">
+        <div class="row">
+          <div class="col-sm-4">
+            <div class="mb-0">ESL Display</div>
+          </div>
+          <div class="col-sm-8 text-secondary">
+            <img [src]="sanitizeImageUrl(imageUrl)" alt="tag-image" />
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-4">
+            <div class="mb-0">ESL ID</div>
+          </div>
+          <div class="col-sm-8 text-secondary">
+            {{searchResult.eslId}}
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-4">
+            <div class="mb-0">Primary Gateway</div>
+          </div>
+          <div class="col-sm-8 text-secondary">
+            {{searchResult.gwId}}
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-4">
+            <div class="mb-0">Secondary Gateway</div>
+          </div>
+          <div class="col-sm-8 text-secondary">
+            {{searchResult.secondaryGwId}}
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-4">
+            <div class="mb-0">Product Name</div>
+          </div>
+          <div class="col-sm-8 text-secondary" *ngIf="searchResultProductData">
+            {{searchResultProductData.itemName}}
+          </div>
+          <div class="col-sm-8 text-secondary" *ngIf="!searchResultProductData">
+            Not Available
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-4">
+            <div class="mb-0">Product ID</div>
+          </div>
+          <div class="col-sm-8 text-secondary" *ngIf="searchResult.productSKU">
+            {{searchResult.productSKU}}
+          </div>
+          <div class="col-sm-8 text-secondary" *ngIf="!searchResult.productSKU">
+            Not Available
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-4">
+            <div class="mb-0">Actual Price</div>
+          </div>
+          <div class="col-sm-8 text-secondary" *ngIf="searchResultProductData">
+            {{searchResultProductData.price}}
+          </div>
+          <div class="col-sm-8 text-secondary" *ngIf="!searchResultProductData">
+            Not Available
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-4">
+            <div class="mb-0">Discounted Price</div>
+          </div>
+          <div class="col-sm-8 text-secondary" *ngIf="searchResultProductData">
+            {{searchResultProductData.discountPrice}}
+          </div>
+          <div class="col-sm-8 text-secondary" *ngIf="!searchResultProductData">
+            Not Available
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-4">
+            <div class="mb-0">Gateway Status</div>
+          </div>
+          <div class="col-sm-8 text-secondary" *ngIf="searchResult.gwStatus">
+            {{searchResult.gwStatus}}
+          </div>
+          <div class="col-sm-8 text-secondary" *ngIf="!searchResult.gwStatus">
+            Not Available
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-sm-4">
+            <div class="mb-0">Display Status</div>
+          </div>
+          <div class="col-sm-8 text-secondary" *ngIf="searchResult.displayStatus">
+            {{searchResult.displayStatus}}
+          </div>
+          <div class="col-sm-8 text-secondary" *ngIf="!searchResult.displayStatus">
+            Not Available
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #notFoundModalData let-modal>
+  <div class="modal-header">
+    <b class="modal-title" id="modal-basic-title">ESL Details</b>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">×</span>
+    </button>
+  </div>
+  <div class="modal-body modal-body-custom">
+
+    <b>Sorry! Not found</b>
+  </div>
+
+</ng-template>
+
+<ng-template #userModalData let-modal>
+  <div class="modal-header">
+    <b class="modal-title" id="modal-basic-title">User Details</b>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">×</span>
+    </button>
+  </div>
+  <div class="modal-body modal-body-custom">
+
+    <div class="row">
+      <div class="col-3">
+        <i class="fa fa-user-circle" aria-hidden="true"></i>
+      </div>
+      <div class="col-9">
+        <table class="table" *ngIf="user">
+          <tr>
+            <td>Username</td>
+            <td>{{user.username}}</td>
+          </tr>
+
+          <tr>
+            <td>Last Login time</td>
+            <td>{{userLastLogin}}</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+</ng-template>
+
+<ng-template #sleepTimerModalData let-modal>
+  <div class="modal-header">
+    <b class="modal-title" id="modal-basic-title">Sleep Timeout</b>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">×</span>
+    </button>
+  </div>
+  <div class="modal-body modal-body-custom">
+    <form [formGroup]="sleepTimeoutForm" (ngSubmit)="onSubmitSleepTimeout()">
+      <div class="alert-section">
+        <alert></alert>
+      </div>
+    <div class="row">
+      <div class=col-4>
+        <div class="md-form mx-0">
+          <label for="in1">Start Time</label>
+          <input formControlName="startTime" type="time" id="in1" class="form-control">
+        </div>
+      </div>
+      </div>
+      <br>
+      <div class="row" >
+        <div class=col-8>
+          <div class="md-form mx-0">
+            <label for="in2">Set Duration</label>
+              <div class="row">
+                <div class=col-6>
+                  Hr:<select formControlName="setDurationHour" class="form-control">
+                    <option *ngFor="let durHour of counter(100); let durationHour = index">{{durationHour}}</option>
+                  </select>
+                </div>
+                <div class=col-6>
+                  Min:<select formControlName="setDurationMinute" class="form-control">
+                    <option *ngFor="let durationMinute of [0,15,30,45]" [value]="durationMinute">{{durationMinute}}</option>
+                  </select>
+                </div>
+              </div>
+          
+          </div>
+        </div>
+      </div>
+      <br>
+      <div class="row">
+        <div class=col-3>
+          <button type="submit" class="btn btn-primary">Confirm</button>
+        </div>
+      </div>
+    
+    </form>
+  </div>
+</ng-template>

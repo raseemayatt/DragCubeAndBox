@@ -1,0 +1,25 @@
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Product Name</th>
+            <th scope="col">Product SKU</th>
+            <th scope="col">ESL ID</th>
+            <th scope="col">Modular Location</th>
+            <th scope="col">Battery Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr class="table-light" *ngFor="let esl of eslList" >
+            <td *ngIf="esl.productName">{{esl.productName}}</td>
+            <td *ngIf="!esl.productName">Not set</td>
+
+            <td>{{esl.productSKU}}</td>
+            <td>{{esl.eslId}}</td>
+
+            <td *ngIf="esl.modularLocation">{{esl.modularLocation}}</td>
+            <td *ngIf="!esl.modularLocation">Not set</td>
+
+            <td>{{esl.battery}}</td>
+        </tr>
+    </tbody>
+</table>

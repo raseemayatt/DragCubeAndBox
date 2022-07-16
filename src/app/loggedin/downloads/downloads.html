@@ -1,0 +1,57 @@
+﻿  <div class="container">
+    <ul class="nav nav-pills nav-toggle-menu">
+      <li class="active">
+        <a class="active" href="#1a" data-toggle="pill">ESL Mapping Data</a>
+      </li>
+      <li >
+        <a href="#2a" data-toggle="pill">Reports</a>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="1a">
+        <br>
+        <div class="container">
+          <div class="tab-content">
+            <button [ngStyle]="{'background': themeBg}" [disabled]="loading" type="button" class="btn btn-primary" (click)="downloadFile();">
+                <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+                Download ESL Mapping Data
+              </button>
+          </div>
+        </div>
+      </div>
+      <div class="tab-pane" id="2a">
+        <br>
+        <div class="container">
+          <div class="tab-content">
+            <div class="alert-section">
+              <alert></alert>
+            </div>
+            <form [formGroup]="theForm" (ngSubmit)="downloadReport()">
+              <div formArrayName="items">
+                  <div style="margin-bottom:20px;" *ngFor="let item of dynamicRow.controls; let i=index" [formGroupName]="i">
+                      <div class="row">
+                          <div class="col-sm">
+                              
+                              <div class="form-group">
+                                  <!-- <input placeholder="Start Date" class="form-control" formControlName="startdate" [dpDayPicker]="startdateConfig" [mode]="'day'" theme="dp-material" autocomplete="nope" (change)="changeStartDate($event)" > -->
+                                  <input onkeydown="return false" placeholder="Start Date" max="{{maxDate}}" class="form-control" formControlName="startdate" type="date" />
+                              </div>
+                              
+                          </div>
+                          <div class="col-sm">
+                          </div>
+                          <div class="col-sm"></div>
+                      </div>
+                      <div class="row">
+                        <div class="col-sm">
+                          <button [ngStyle]="{'background': themeBg}" type="submit" class="btn btn-primary">Download Report</button>
+                        </div>
+                      </div>
+                  </div>
+              </div>
+          </form>    
+          </div> 
+        </div>
+      </div>
+    </div>
+  </div>

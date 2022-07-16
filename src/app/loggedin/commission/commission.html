@@ -1,0 +1,165 @@
+<div class="container">
+  <ul class="nav nav-pills nav-toggle-menu">
+    <li class="active" *ngIf="tabsAvailability.singleCommission.visible">
+      <a class="active" href="#1a" data-toggle="pill">Single Commission</a>
+    </li>
+    <li *ngIf="tabsAvailability.bulkCommission.visible"><a href="#2a" data-toggle="pill">Bulk Commission</a>
+    </li>
+    <li *ngIf="tabsAvailability.tagDetails.visible"><a href="#3a" data-toggle="pill">Retry Failed Commission</a>
+    </li>
+  </ul>
+
+  <div class="tab-content">
+
+    <div class="tab-pane show active" id="1a">
+      <div class="alert-section">
+        <alert></alert>
+      </div>
+      <br>
+      <form [formGroup]="singleCommissionForm" (ngSubmit)="onSubmit()">
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label for="eslId">ESL ID*</label>
+            <input (keypress)="isAlphaNumericKey($event)" type="text" class="form-control" formControlName="eslId"
+              id="eslId" value="ESL">
+          </div>
+          <div class="form-group col-md-6">
+            <label for="gwId">Primary Gateway*</label>
+            <select id="gwId" class="form-control" formControlName="gwId">
+              <option *ngFor="let gateway of gatewayList" value="{{gateway.gwId}}">
+                {{gateway.gwName}}
+              </option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label for="productSKU">Product SKU*</label>
+            <input (keypress)="isAlphaNumericKey($event)" type="text" class="form-control" formControlName="productSKU"
+              id="productSKU">
+          </div>
+          <div class="form-group col-md-6">
+            <label for="secondaryGwId">Secondary Gateway*</label>
+            <select id="secondaryGwId" class="form-control" formControlName="secondaryGwId">
+              <option *ngFor="let gateway of gatewayList" value="{{gateway.gwId}}">
+                {{gateway.gwName}}
+              </option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label for="eslId">Modular Location</label>
+            <input (keypress)="isAlphaNumericKey($event)" type="text" class="form-control"
+              formControlName="modularLocation" id="modLoc">
+          </div>
+        </div>
+        <button  [ngStyle]="{'background': themeBg}" [disabled]="loading" type="submit" class="btn btn-primary">
+          <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+          Commission
+        </button>
+        <br>
+      </form>
+    </div>
+
+    <div class="tab-pane fade" id="2a">
+      <br>
+      <div class="alert-section">
+        <alert></alert>
+      </div>
+      <form [formGroup]="bulkCommissionForm">
+        <div class="row">
+          <div class="col-3 upload-commission-label-heading">
+            Choose Bulk Commission CSV
+          </div>
+          <div class="col-4">
+            <label *ngIf="!bulkCommissionStatus.checking" for="files" class="btn upload-commission-label"><i
+              [ngStyle]="{'color': themeBg}" class="fa fa-folder-open" aria-hidden="true"></i>
+              Choose & Upload</label>
+            <label *ngIf="bulkCommissionStatus.checking" class="btn upload-commission-label">
+              <div class="loadingio-spinner-reload-cluby6o6qqa">
+                <div class="ldio-vrvnnan0h8i">
+                  <div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                  </div>
+                </div>
+              </div>
+            </label>
+            <input id="files" class="upload-commission" #fileInput type="file" (change)="fileChange($event, fileInput)"
+              placeholder="Choose Bulk Commission CSV" accept=".csv">
+          </div>
+        </div>
+      </form>
+
+
+      <table class="table" *ngIf="bulkCommissionStatus.display">
+        <thead>
+          <tr>
+            <!-- <td scope="col">Total Count</td> -->
+            <td scope="col">Valid Entry Count</td>
+            <td scope="col">Success</td>
+            <td scope="col">Failure</td>
+            <td scope="col">Result Waiting </td>
+            <td scope="col">Status Check</td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="table-light">
+            <!-- <td scope="row">{{bulkCommissionStatus.totalCount}}</td> -->
+            <td scope="row">{{bulkCommissionStatus.validEntryCount}}</td>
+            <td scope="row">{{bulkCommissionStatus.successCount}}</td>
+            <td scope="row">{{bulkCommissionStatus.failedCount}}</td>
+            <td scope="row">{{bulkCommissionStatus.resultWaiting}} </td>
+            <td scope="row">
+              <div *ngIf="bulkCommissionStatus.checking">checking</div>
+              <div *ngIf="!bulkCommissionStatus.checking">completed</div>
+            </td>
+          </tr>
+        </tbody>
+        <br>
+        <button *ngIf="bulkCommissionStatus.failedCount>0" [disabled]="bulkCommissionStatus.checking" type="button" class="btn btn-primary"
+          (click)="retryBulkCommission(bulkCommissionStatus.transactionId)">
+          <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>Retry
+        </button>
+      </table>
+    </div>
+
+    <div class="tab-pane fade" id="3a">
+      <div class="alert-section">
+        <alert></alert>
+      </div>
+      <div class="p-4">
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">Product SKU</th>
+              <th scope="col">ESL ID</th>
+              <th scope="col">Gateway 1</th>
+              <th scope="col">Gateway 2</th>
+              <th scope="col">Retry Commission</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="table-light" *ngFor="let failed of failedCommissionListData">
+              <td scope="row">{{failed.productSKU}}</td>
+              <td>{{failed.eslId}}</td>
+              <td>{{failed.gwId}}</td>
+              <td>{{failed.secondaryGwId}}</td>
+              <td>
+                <!--<button [disabled]="loading" type="button" class="btn btn-primary"
+                    (click)="retryCommission(failedCommission)">
+                    <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+                    Retry Commission
+                  </button> -->
+                <i class="fa fa-repeat" aria-hidden="true" (click)="retryCommission(failed.transactionId)">
+                  &nbsp;Retry</i>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

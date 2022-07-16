@@ -1,0 +1,140 @@
+<div class="container">
+    <ul class="nav nav-pills nav-toggle-menu">
+        <li class="active" *ngIf="tabsAvailability.decommission.visible">
+            <a class="active" href="#1a" data-toggle="pill">Decommission</a>
+        </li>
+        <li *ngIf="tabsAvailability.bulkDecommission.visible"><a href="#2a" data-toggle="pill">Bulk Decommission</a>
+        </li>
+        <li *ngIf="tabsAvailability.bulkDecommission.visible"><a href="#3a" data-toggle="pill">Retry Failed
+                Decommission</a>
+        </li>
+    </ul>
+
+    <div class="tab-content">
+        <div class="tab-pane show active" id="1a">
+            <br>
+            <div class="alert-section">
+                <alert></alert>
+            </div>
+            <form [formGroup]="deCommissionForm" (ngSubmit)=onSingleDecommission($event)>
+                Decommission by SKU ID
+                <div class="form-row">
+
+                    <div class="form-group col-md-4">
+                        <input (keypress)="isAlphaNumericKey($event)" type="text" class="form-control"
+                            formControlName="DeCommissionSku" id="DecommissionSku" placeholder="SKU ID">
+                    </div>
+                </div>
+                <button [ngStyle]="{'background': themeBg}" [disabled]="DecomDecomFormloading" type="submit" class="btn btn-primary" value="Decommission">
+                    <span *ngIf="DecomDecomFormloading" class="spinner-border spinner-border-sm mr-1"></span>
+                    Decommission
+                </button><br><br><br>
+                Decommission by ESL ID
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <input (keypress)="isAlphaNumericKey($event)" type="text" class="form-control"
+                            formControlName="DeCommissionESL" id="DeCommissionESL" placeholder="ESL ID">
+                    </div>
+                </div>
+                <button [ngStyle]="{'background': themeBg}" [disabled]="decommbyESL" type="button" class="btn btn-primary" value="DecommESL"
+                    (click)="DecommissionByESL(deCommissionForm.value)">
+                    <span *ngIf="decommbyESL" class="spinner-border spinner-border-sm mr-1"></span>
+                    Decommission
+                </button>
+            </form>
+        </div>
+
+        <div class="tab-pane fade" id="2a">
+            <br>
+            <div class="alert-section">
+                <alert></alert>
+            </div>
+            <form [formGroup]="bulkDeCommissionForm">
+                <div class="row">
+                    <div class="col-3 upload-commission-label-heading">
+                        Choose Bulk Decommission CSV
+                    </div>
+                    <div class="col-4">
+                        <label *ngIf="!bulkDeCommissionStatus.checking" for="files"
+                            class="btn upload-commission-label"><i [ngStyle]="{'color': themeBg}" class="fa fa-folder-open" aria-hidden="true"></i>
+                            Choose & Upload</label>
+                        <label *ngIf="bulkDeCommissionStatus.checking" class="btn upload-commission-label">
+                            <div class="loadingio-spinner-reload-cluby6o6qqa">
+                                <div class="ldio-vrvnnan0h8i">
+                                    <div>
+                                        <div></div>
+                                        <div></div>
+                                        <div></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </label>
+                        <input id="files" class="upload-commission" #fileInput type="file"
+                            (change)="fileChange($event, fileInput)" placeholder="Choose Bulk Decommission CSV"
+                            accept=".csv">
+                    </div>
+                </div>
+            </form>
+            <table class="table" *ngIf="bulkDeCommissionStatus.display">
+                <thead>
+                    <tr>
+                        <!-- <td scope="col">Total Count</td> -->
+                        <td scope="col">Valid Entry Count</td>
+                        <td scope="col">Success</td>
+                        <td scope="col">Failure</td>
+                        <td scope="col">Result Waiting </td>
+                        <td scope="col">Status Check</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="table-light">
+                        <!-- <td scope="row">{{bulkDeCommissionStatus.totalCount}}</td> -->
+                        <td scope="row">{{bulkDeCommissionStatus.validEntryCount}}</td>
+                        <td scope="row">{{bulkDeCommissionStatus.successCount}}</td>
+                        <td scope="row">{{bulkDeCommissionStatus.failedCount}}</td>
+                        <td scope="row">{{bulkDeCommissionStatus.resultWaiting}} </td>
+                        <td scope="row">
+                            <div *ngIf="bulkDeCommissionStatus.checking">
+                                checking
+                            </div>
+                            <div *ngIf="!bulkDeCommissionStatus.checking">completed</div>
+                        </td>
+                    </tr>
+                </tbody>
+                <br>
+                <button [ngStyle]="{'background': themeBg}" [disabled]="bulkDeCommissionStatus.checking" type="button" class="btn btn-primary"
+                    (click)="retryBulkDeCommission(bulkDeCommissionStatus.transactionId)">
+                    <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>Retry
+                </button>
+            </table>
+        </div>
+
+        <div class="tab-pane fade" id="3a">
+            <div class="alert-section">
+                <alert></alert>
+            </div>
+            <div class="p-4">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col-sm-3">ESL ID</th>
+                            <th scope="col-sm-3">SKU ID</th>
+                            <th scope="col-sm-3">Retry Decommission</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="table-light" *ngFor="let failed of failedDeCommissionListData">
+                            <td scope="row">{{failed.eslId}}</td>
+                            <td scope="row">{{failed.productSKU}}</td>
+                            <td>
+                                <i class="fa fa-repeat" aria-hidden="true"
+                                    (click)="retryDeCommission(failed.productSKU)">
+                                    &nbsp;Retry</i>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

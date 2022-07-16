@@ -1,0 +1,218 @@
+﻿<div class="p-4">
+    <div class="container">
+
+        <div class="row">
+            <div class="col-lg-3 col-md-6 col-xs-12 pl-1 pr-1">
+                <div *ngIf="!summaryData" class="card grey-card">
+                    <div class="loadingcard">
+                        <div class="loadingio-spinner-reload-cluby6o6qqa">
+                            <div class="ldio-vrvnnan0h8i">
+                                <div>
+                                    <div></div>
+                                    <div></div>
+                                    <div></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="summaryData" class="card  loading-blank-card">
+                    <i class="fa fa-hdd-o" aria-hidden="true"></i>
+                    <a routerLink="/gateways" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                        <h6 class="box-heading">{{gatewaysCount}} Gateways</h6>
+                    </a>
+
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-xs-12 pl-1 pr-1">
+                <div *ngIf="!summaryData" class="card grey-card">
+                    <div class="loadingcard">
+                        <div class="loadingio-spinner-reload-cluby6o6qqa">
+                            <div class="ldio-vrvnnan0h8i">
+                                <div>
+                                    <div></div>
+                                    <div></div>
+                                    <div></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="summaryData" class="card loading-blank-card">
+                    <i class="fa fa-barcode" aria-hidden="true"></i>
+                    <h6 class="box-heading">{{summaryData.eslStatus.totalEslCount}} Tags </h6>
+
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-xs-12 pl-1 pr-1">
+                <div *ngIf="!summaryData" class="card grey-card">
+                    <div class="loadingcard">
+                        <div class="loadingio-spinner-reload-cluby6o6qqa">
+                            <div class="ldio-vrvnnan0h8i">
+                                <div>
+                                    <div></div>
+                                    <div></div>
+                                    <div></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="summaryData" class="card loading-blank-card">
+                    <i class="fa fa-battery-quarter" aria-hidden="true"></i>
+
+                    <a routerLink="/lowbattery" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                        <h6 class="box-heading">{{summaryData.eslStatus.lowBatteryEslCount}} Low Battery </h6>
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-xs-12 pl-1 pr-1">
+                <div *ngIf="!summaryData"   class="card grey-card">
+                    <div class="loadingcard">
+                        <div class="loadingio-spinner-reload-cluby6o6qqa">
+                            <div class="ldio-vrvnnan0h8i">
+                                <div>
+                                <div></div>
+                                <div></div>
+                                <div></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <ul *ngIf="summaryData">
+                        <li><b>Sleep Timing</b></li>
+                        <li>&nbsp;</li>
+                        <li>Date: {{sleepStartDate}}</li>
+                        <li>Time: {{sleepStartTime}}</li>
+                        <li>&nbsp;</li>
+                        <li>Duration: {{sleepStartHour}} hr {{sleepStartMinute}} min</li>
+                        <li>Status: {{sleepStartStatus}}</li>
+                        
+                    </ul>
+                    <div *ngIf="summaryData" class="card loading-blank-card">
+                        <i class="fa fa-hourglass-end" aria-hidden="true"></i>
+                        <h6  class="box-heading">Sleep at {{sleepStartDate}} {{sleepStartTime}}</h6>
+    
+                    </div>
+                </div>
+                <div *ngIf="!summaryData" class="card grey-card">
+                    <div class="loadingcard">
+                        <div class="loadingio-spinner-reload-cluby6o6qqa">
+                            <div class="ldio-vrvnnan0h8i">
+                                <div>
+                                    <div></div>
+                                    <div></div>
+                                    <div></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="summaryData" class="card loading-blank-card">
+                    <!-- To display sleep coundown timer -->
+                    
+                    <!-- Countdown timer code end -->
+                    <i class="fa fa-hourglass-end" aria-hidden="true"></i>
+                    <h6 *ngIf="isTimerSet()"  class="box-heading timer-display">{{timerString}}</h6>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6">
+                <div>
+                    <div *ngIf="!summaryData" class="loadingcard">
+                        <div class="loadingio-spinner-reload-cluby6o6qqa">
+                            <div class="ldio-vrvnnan0h8i">
+                                <div>
+                                    <div></div>
+                                    <div></div>
+                                    <div></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div *ngIf="summaryData">
+                        <table class="table card-table">
+                            <tr>
+                                <td [ngStyle]="{'background': themeBg}" class="blue-head" colspan="4">ESL Update Status</td>
+                            </tr>
+                            <tr>
+                                <td colspan="4">Commission</td>
+                            </tr>
+                            <tr>
+                                <td class="grey-head">Success</td>
+                                <td class="grey-head">Failure</td>
+                                <td class="grey-head">Processing</td>
+                                <td class="grey-head">Waiting</td>
+                            </tr>
+                            <tr>
+                                <td>{{summaryData.eslStatus.commissionSuccessCount}}</td>
+                                <td>{{summaryData.eslStatus.commissionFailedCount}}</td>
+                                <td>{{summaryData.eslStatus.commissionProcessingCount}}</td>
+                                <td>{{summaryData.eslStatus.waitingCountForCommission}}</td>
+                            </tr>
+
+                            <tr>
+                                <td colspan="4">Price Update</td>
+                            </tr>
+                            <tr>
+                                <td class="grey-head">Success</td>
+                                <td class="grey-head">Failure</td>
+                                <td class="grey-head">Processing</td>
+                                <td class="grey-head">Waiting</td>
+                            </tr>
+                            <tr>
+                                <td>{{summaryData.eslStatus.priceUpdateSuccessCount}}</td>
+                                <td>{{summaryData.eslStatus.priceUpdateFailedCount}}</td>
+                                <td>{{summaryData.eslStatus.priceUpdateProcessingCount}}</td>
+                                <td>{{summaryData.eslStatus.waitingCountForPriceUpdate}}</td>
+                            </tr>
+
+                            <tr>
+                                <td colspan="4">Decommission</td>
+                            </tr>
+                            <tr>
+                                <td class="grey-head">Success</td>
+                                <td class="grey-head">Failure</td>
+                                <td class="grey-head">Processing</td>
+                                <td class="grey-head">Waiting</td>
+                            </tr>
+                            <tr>
+                                <td>{{summaryData.eslStatus.decommissionSuccessCount}}</td>
+                                <td>{{summaryData.eslStatus.decommissionFailedCount}}</td>
+                                <td>{{summaryData.eslStatus.decommissionProcessingCount}}</td>
+                                <td>{{summaryData.eslStatus.waitingCountForDecommission}}</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6">
+                <table class="table card-table">
+                    <thead>
+                        <tr>
+                            <td [ngStyle]="{'background': themeBg}"  class="blue-head" scope="col">Event ID</td>
+                            <td [ngStyle]="{'background': themeBg}"  class="blue-head" scope="col">Event Name</td>
+                            <td [ngStyle]="{'background': themeBg}"  class="blue-head" scope="col">Total Count</td>
+                            <td [ngStyle]="{'background': themeBg}"  class="blue-head" scope="col">Success Count</td>
+                        </tr>
+                    </thead>
+                    <tbody *ngIf="!summaryData">
+                        <tr class="table-light">
+                            <td colspan="6">Loading events</td>
+                        </tr>
+                    </tbody>
+                    <tbody *ngIf="summaryData">
+                        <tr class="table-light" *ngFor="let singleEvent of eventList">
+                            <td class="grey-head">{{singleEvent.id}}</td>
+                            <td class="grey-head">{{singleEvent.eventName}}</td>
+                            <td class="grey-head">{{singleEvent.totalCount}}</td>
+                            <td class="grey-head">{{singleEvent.successCount}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+</div>

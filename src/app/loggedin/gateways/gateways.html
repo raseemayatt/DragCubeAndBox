@@ -1,0 +1,85 @@
+﻿
+  <div class="p-4">
+    <div class="container">
+      <div class="alert-section">
+        <alert></alert>
+      </div>
+      <button [ngStyle]="{'background': themeBg}" *ngIf= "gatewayListVisible" type="submit" class="btn btn-primary"><a routerLink="/addgateways" routerLinkActive="active"
+          [routerLinkActiveOptions]="{exact: true}">Add Gateway</a></button>
+      <table class="table" *ngIf= "gatewayListVisible">
+        <thead>
+          <tr>
+            <th scope="col">Gateway Name</th>
+            <th scope="col">Gateway ID</th>
+            <th scope="col">Details</th>
+            <th scope="col">Status</th>
+            <th scope="col">Options</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="table-light" *ngFor="let gateway of gatewayList" ng-repeat="gateway in names">
+            <td scope="row">{{gateway.gwName}}</td>
+            <td>{{gateway.gwId}}</td>
+            <td>{{gateway.details}}</td>
+            <td *ngIf="gateway.running">
+              <i class="fa fa-circle fa-green" aria-hidden="true"></i>
+              Available
+            </td>           
+            <td *ngIf="!gateway.running"> 
+              <i class="fa fa-circle fa-red" aria-hidden="true"></i>
+                Dead
+            </td>
+            <td>
+              &nbsp;&nbsp;&nbsp;&nbsp;
+              <i class="fa fa-pencil-square-o" aria-hidden="true" (click)="editGateway(gateway)"></i>
+              &nbsp;&nbsp;&nbsp;&nbsp;  
+              <i class="fa fa-trash" aria-hidden="true" (click)="deleteGateway(gateway.gwId)"></i>              
+            </td>
+
+          </tr>
+
+
+
+        </tbody>
+      </table>
+
+      <form *ngIf="gatewayFormVisible" [formGroup]="editGatewayForm" (ngSubmit)="onEditSubmit()">
+        <!-- <div class="form-group col-md-6">
+          <label for="id">Sl.No</label>
+          <input type disabled ="text" class="form-control" formControlName="id" id="id" >
+
+        </div> -->
+        <div class="form-group col-md-6">
+          <label for="gwId">Gateway ID*</label>
+          <input (keypress)="isAlphaNumericKey($event)" maxlength="5" type ="text" class="form-control" formControlName="gwId" id="gwId" >
+
+        </div>
+        <div class="form-group col-md-6">
+          <label for="gwName">Gateway Name*</label>
+          <input type="text" class="form-control" formControlName="gwName" id="gwName" >
+        </div>
+
+        <div class="form-group col-md-6">
+          <label for="details">Details</label>
+          <input type="text" class="form-control" formControlName="details" id="details" >
+        </div>
+       
+
+        <button [disabled]="loading" type="submit" class="btn btn-primary">
+          <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+          Save Changes
+        </button>
+        <button type="button" class="btn btn-secondary"(click)="getGatewayList()">Cancel</button>
+        <br>
+        
+      </form>
+
+
+    </div>
+  </div>
+
+
+
+
+
+

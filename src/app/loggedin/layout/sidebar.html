@@ -1,0 +1,42 @@
+﻿<nav id="sidebar" [ngStyle]="{'background': sidebar.background, 'color' : sidebar.fontColor}">
+    <div class="sidebar-header" [ngStyle]="{'background': sidebar.background, 'color' : sidebar.fontColor}">
+        <img src="{{logoUrl}}" width="100">
+    </div>
+
+    <ul class="list-unstyled components">
+
+
+        <li>
+            <a *ngIf="checkVisibility(tabsAvailability.dashboard.visible, 'dashboard')" (click)="goToTabContent('dashboard')" ><i class="fa fa-home" aria-hidden="true"></i>
+                 Home</a>
+        </li>
+
+        <li>
+            <a *ngIf="checkVisibility(tabsAvailability.commission.visible, 'commission')" (click)="goToTabContent('commission')"><i class="fa fa-users" aria-hidden="true"></i>
+                 Commission</a>
+        </li>
+        <li>
+            <a *ngIf="checkVisibility(tabsAvailability.priceUpdates.visible, 'priceUpdates')" (click)="goToTabContent('priceupdates')">                <i class="fa fa-money" aria-hidden="true"></i>
+                Price
+ Updates</a>
+        </li>
+        <li>
+            <a *ngIf="checkVisibility(tabsAvailability.decommission.visible, 'Decommission')"  (click)="goToTabContent('decommission')"><i class="fa fa-chain-broken" aria-hidden="true"></i>
+                 Decommission</a>
+        </li>
+        <li>
+            <a *ngIf="checkVisibility(tabsAvailability.downloads.visible, 'Downloads')" (click)="goToTabContent('downloads')"><i class="fa fa-download" aria-hidden="true"></i>
+                Downloads</a>
+        </li>
+        <li>
+            <a *ngIf="checkVisibility(tabsAvailability.gateway.visible, 'Gateways')"  (click)="goToTabContent('gateways')"><i class="fa fa-sitemap" aria-hidden="true"></i>
+                Gateways</a>
+        </li>
+        <li>
+            <a (click)="goToTabContent('designer')"><i class="fa fa-paint-brush" aria-hidden="true"></i>
+                Designer</a>
+        </li>
+    </ul>
+
+
+</nav>
